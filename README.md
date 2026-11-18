@@ -35,9 +35,51 @@ The sample login endpoint is `POST /api/auth/login`:
 
 ```json
 {
-  "email": "demo@marketplace.local",
+  "email": "user@example.com",
   "password": "password"
 }
 ```
 
-The current repository is only an in-memory starter implementation.
+### MySQL setup
+
+Import the database schema before starting the backend:
+
+```bash
+mysql -u root -p < backend/src/database/schema_web_mua_ban_do_cu.sql
+```
+
+The backend reads MySQL connection settings from environment variables:
+
+```bash
+set MYSQL_HOST=localhost
+set MYSQL_PORT=3306
+set MYSQL_DATABASE=secondhand_market
+set MYSQL_USERNAME=root
+set MYSQL_PASSWORD=your_password
+cd backend
+mvn spring-boot:run
+```
+
+On PowerShell, use `$env:MYSQL_PASSWORD='your_password'` (and the same pattern for the other variables).
+
+The `users` table must contain a BCrypt-encoded `password_hash`; the backend no longer uses a demo in-memory account. Spring JPA uses `validate` mode, so it does not create or alter the MySQL schema.
+
+### Store MySQL settings locally
+
+To avoid setting PowerShell environment variables for every run, copy the local configuration template:
+
+```bash
+cd backend
+copy application-local.yml.example application-local.yml
+```
+
+Edit `application-local.yml` and set `username` and `password`. This file is automatically imported by Spring Boot and is ignored by Git.
+
+After that, start the backend normally:
+
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+Environment variables can still override `application-local.yml` and are recommended for servers or shared CI environments.
