@@ -20,9 +20,14 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.email().toLowerCase())
-                .filter(candidate -> passwordEncoder.matches(request.password(), candidate.passwordHash()))
+                .filter(candidate -> passwordEncoder.matches(request.password(), candidate.getPasswordHash()))
                 .orElseThrow(() -> new InvalidCredentialsException());
 
-        return new LoginResponse(user.id(), user.email(), user.displayName(), "Login successful");
+        return new LoginResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getFullName(),
+                "Login successful"
+        );
     }
 }

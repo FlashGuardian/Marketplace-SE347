@@ -17,5 +17,6 @@ frontend/build/
 .env
 .env.*
 !.env.example
+backend/application-local.yml
 
 .vs/
