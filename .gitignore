@@ -17,3 +17,5 @@ frontend/build/
 .env
 .env.*
 !.env.example
+
+.vs/
