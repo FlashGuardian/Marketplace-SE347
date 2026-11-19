@@ -306,7 +306,28 @@ INSERT INTO categories (name, description) VALUES
   ('Đồ gia dụng', 'Đồ dùng trong ký túc xá, phòng trọ'),
   ('Quần áo - Phụ kiện', 'Thời trang đã qua sử dụng'),
   ('Xe cộ', 'Xe đạp, xe máy, phụ kiện'),
-  ('Khác', 'Các sản phẩm khác');
+  ('Khác', 'Các sản phẩm khác')
+ON DUPLICATE KEY UPDATE description = VALUES(description), is_active = TRUE;
 
--- Ghi chú: tài khoản Admin đầu tiên cần được tạo bằng seed script của ứng dụng
--- (băm mật khẩu bằng bcrypt/argon2), không chèn mật khẩu thô vào đây.
+-- Tài khoản thử nghiệm. Tất cả tài khoản đều dùng mật khẩu 12345678.
+-- Mật khẩu được lưu bằng BCrypt; không chèn mật khẩu thô vào cơ sở dữ liệu.
+INSERT INTO users (
+  id, full_name, email, phone, password_hash, role, status
+) VALUES
+  (1, 'Demo User', 'demo@marketplace.local', '0900000001',
+   '$2a$10$24tbRqNDZ3RKpPqgj./J9OyrOfM5PyuTcZFEHgAZGfHqc3VT4528a',
+   'USER', 'ACTIVE'),
+  (1001, 'Nguyễn Minh Anh', 'user@cho2hand.local', '0900000002',
+   '$2a$10$24tbRqNDZ3RKpPqgj./J9OyrOfM5PyuTcZFEHgAZGfHqc3VT4528a',
+   'USER', 'ACTIVE'),
+  (1002, 'Quản trị viên', 'admin@cho2hand.local', '0900000003',
+   '$2a$10$24tbRqNDZ3RKpPqgj./J9OyrOfM5PyuTcZFEHgAZGfHqc3VT4528a',
+   'ADMIN', 'ACTIVE')
+ON DUPLICATE KEY UPDATE
+  full_name = VALUES(full_name),
+  phone = VALUES(phone),
+  password_hash = VALUES(password_hash),
+  role = VALUES(role),
+  status = 'ACTIVE',
+  lock_reason = NULL,
+  locked_until = NULL;
