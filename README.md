@@ -64,6 +64,14 @@ On PowerShell, use `$env:MYSQL_PASSWORD='your_password'` (and the same pattern f
 
 The `users` table must contain a BCrypt-encoded `password_hash`; the backend no longer uses a demo in-memory account. Spring JPA uses `validate` mode, so it does not create or alter the MySQL schema.
 
+### Authentication endpoints
+
+- `POST /api/auth/register` - creates a USER account with a BCrypt password hash.
+- `POST /api/auth/login` - verifies credentials and returns access and refresh JWTs.
+- `POST /api/auth/refresh` - exchanges a valid refresh JWT for a new token pair.
+- `POST /api/auth/logout` - requires the access token in `Authorization: Bearer <accessToken>` and `{ "refreshToken": "<refreshToken>" }` in the body; revokes both tokens.
+- `GET /api/auth/me` - requires `Authorization: Bearer <accessToken>` and returns the current user.
+
 ### Store MySQL settings locally
 
 To avoid setting PowerShell environment variables for every run, copy the local configuration template:
