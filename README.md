@@ -35,8 +35,8 @@ The sample login endpoint is `POST /api/auth/login`:
 
 ```json
 {
-  "email": "user@example.com",
-  "password": "password"
+  "email": "demo@marketplace.local",
+  "password": "12345678"
 }
 ```
 
@@ -45,24 +45,18 @@ The sample login endpoint is `POST /api/auth/login`:
 Import the database schema before starting the backend:
 
 ```bash
-mysql -u root -p < backend/src/database/schema_web_mua_ban_do_cu.sql
+Get-Content -Path "backend\src\database\schema_web_mua_ban_do_cu.sql" | mysql --user="<MYSQL_USERNAME>" --password
 ```
 
-The backend reads MySQL connection settings from environment variables:
+Replace `<MYSQL_USERNAME>` with your MySQL username. The `-p` option prompts for `<MYSQL_PASSWORD>` securely.
+
+To insert or reset the complete database demo data:
 
 ```bash
-set MYSQL_HOST=localhost
-set MYSQL_PORT=3306
-set MYSQL_DATABASE=secondhand_market
-set MYSQL_USERNAME=root
-set MYSQL_PASSWORD=your_password
-cd backend
-mvn spring-boot:run
+Get-Content -Path "backend\src\database\seed_database.sql" | mysql --user="<MYSQL_USERNAME>" --password
 ```
 
-On PowerShell, use `$env:MYSQL_PASSWORD='your_password'` (and the same pattern for the other variables).
-
-The `users` table must contain a BCrypt-encoded `password_hash`; the backend no longer uses a demo in-memory account. Spring JPA uses `validate` mode, so it does not create or alter the MySQL schema.
+The `users` table must contain a BCrypt-encoded `password_hash`(password is 12345678); the backend no longer uses a demo in-memory account. Spring JPA uses `validate` mode, so it does not create or alter the MySQL schema.
 
 ### Authentication endpoints
 
@@ -74,14 +68,24 @@ The `users` table must contain a BCrypt-encoded `password_hash`; the backend no 
 
 ### Store MySQL settings locally
 
-To avoid setting PowerShell environment variables for every run, copy the local configuration template:
+Copy the local configuration template:
 
 ```bash
 cd backend
 copy application-local.yml.example application-local.yml
 ```
 
-Edit `application-local.yml` and set `username` and `password`. This file is automatically imported by Spring Boot and is ignored by Git.
+Edit `application-local.yml` and replace the placeholders:
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://<MYSQL_HOST>:<MYSQL_PORT>/<MYSQL_DATABASE>?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: <MYSQL_USERNAME>
+    password: <MYSQL_PASSWORD>
+```
+
+This file is automatically imported by Spring Boot and is ignored by Git.
 
 After that, start the backend normally:
 
