@@ -11,3 +11,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+
+app:
+  jwt:
+    secret: test-secret-key-with-at-least-64-characters-for-hmac-sha256-signing
+    access-token-expiration-ms: 900000
+    refresh-token-expiration-ms: 604800000

@@ -2,6 +2,10 @@ package com.marketplace.auth.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -10,6 +14,7 @@ import jakarta.persistence.Table;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -22,7 +27,27 @@ public class User {
     @Column(name = "full_name", nullable = false, length = 100)
     private String fullName;
 
+    @Column(name = "phone", nullable = false, length = 15)
+    private String phone;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.USER;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status = Status.ACTIVE;
+
     protected User() {
+    }
+
+    public User(String fullName, String email, String phone, String passwordHash) {
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.passwordHash = passwordHash;
+        this.role = Role.USER;
+        this.status = Status.ACTIVE;
     }
 
     public Long getId() {
@@ -39,5 +64,27 @@ public class User {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public enum Role {
+        USER,
+        ADMIN
+    }
+
+    public enum Status {
+        ACTIVE,
+        LOCKED
     }
 }
