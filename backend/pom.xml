@@ -19,6 +19,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <junit.excludeTags>mysql</junit.excludeTags>
     </properties>
 
     <dependencies>
@@ -87,6 +88,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludedGroups>${junit.excludeTags}</excludedGroups>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>mysql-it</id>
+            <properties>
+                <junit.excludeTags></junit.excludeTags>
+            </properties>
+        </profile>
+    </profiles>
 </project>
