@@ -1,5 +1,6 @@
 package com.marketplace.common;
 
+import com.marketplace.cart.service.CartException;
 import com.marketplace.auth.service.InvalidCredentialsException;
 import com.marketplace.auth.service.AccountLockedException;
 import com.marketplace.auth.service.DuplicateAccountException;
@@ -51,5 +52,11 @@ public class GlobalExceptionHandler {
         response.put("error", "Request validation failed");
         response.put("fields", errors);
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(CartException.class)
+    public ResponseEntity<Map<String, String>> handleCartException(CartException exception) {
+        return ResponseEntity.status(exception.getStatus())
+                .body(Map.of("code", exception.getCode(), "message", exception.getMessage()));
     }
 }

@@ -13,13 +13,14 @@ import AdminPage from '../pages/admin/AdminPage';
 import AdminRelatedOrderPage from '../pages/admin/AdminRelatedOrderPage';
 import ForbiddenPage from '../pages/errors/ForbiddenPage';
 import NotFoundPage from '../pages/errors/NotFoundPage';
+import CartPage from '../pages/cart/CartPage';
 
 export default function AppRouter() { return <BrowserRouter><Routes>
   <Route element={<MainLayout />}>
     <Route index element={<HomePage />} /><Route path="search" element={<SearchPage />} /><Route path="products/:productId" element={<ProductDetailPage />} />
     <Route path="login" element={<LoginPage />} /><Route path="register" element={<RegisterPage />} />
     <Route element={<ProtectedRoute allowedRoles={['USER']} />}>
-      <Route path="cart" element={<UserPage />} /><Route path="checkout" element={<UserPage />} /><Route path="sell" element={<UserPage />} /><Route path="my-products" element={<UserPage />} /><Route path="my-orders" element={<UserPage />} /><Route path="chat" element={<UserPage />} /><Route path="notifications" element={<UserPage />} /><Route path="profile" element={<UserPage />} /><Route path="change-password" element={<UserPage />} />
+      <Route path="cart" element={<CartPage />} /><Route path="checkout" element={<UserPage />} /><Route path="sell" element={<UserPage />} /><Route path="my-products" element={<UserPage />} /><Route path="my-orders" element={<UserPage />} /><Route path="chat" element={<UserPage />} /><Route path="notifications" element={<UserPage />} /><Route path="profile" element={<UserPage />} /><Route path="change-password" element={<UserPage />} />
     </Route>
     <Route path="403" element={<ForbiddenPage />} />
   </Route>
