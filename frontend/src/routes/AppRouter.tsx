@@ -10,6 +10,7 @@ import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import UserPage from '../pages/user/UserPage';
 import AdminPage from '../pages/admin/AdminPage';
+import AdminCategoriesPage from '../pages/admin/AdminCategoriesPage';
 import AdminRelatedOrderPage from '../pages/admin/AdminRelatedOrderPage';
 import ForbiddenPage from '../pages/errors/ForbiddenPage';
 import NotFoundPage from '../pages/errors/NotFoundPage';
@@ -24,7 +25,7 @@ export default function AppRouter() { return <BrowserRouter><Routes>
     <Route path="403" element={<ForbiddenPage />} />
   </Route>
   <Route element={<AdminRoute />}><Route path="admin" element={<AdminLayout />}>
-    <Route index element={<Navigate to="statistics" replace />} /><Route path="dashboard" element={<Navigate to="statistics" replace />} /><Route path="accounts" element={<AdminPage />} /><Route path="categories" element={<AdminPage />} /><Route path="products" element={<AdminPage />} /><Route path="reports" element={<AdminPage />} /><Route path="statistics" element={<AdminPage />} /><Route path="reports/:reportId/orders/:orderId" element={<AdminRelatedOrderPage />} />
+    <Route index element={<Navigate to="statistics" replace />} /><Route path="dashboard" element={<Navigate to="statistics" replace />} /><Route path="accounts" element={<AdminPage />} /><Route path="categories" element={<AdminCategoriesPage />} /><Route path="products" element={<AdminPage />} /><Route path="reports" element={<AdminPage />} /><Route path="statistics" element={<AdminPage />} /><Route path="reports/:reportId/orders/:orderId" element={<AdminRelatedOrderPage />} />
   </Route></Route>
   <Route path="*" element={<NotFoundPage />} />
 </Routes></BrowserRouter>; }
