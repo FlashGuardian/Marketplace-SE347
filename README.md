@@ -66,6 +66,16 @@ The `users` table must contain a BCrypt-encoded `password_hash`(password is 1234
 - `POST /api/auth/logout` - requires the access token in `Authorization: Bearer <accessToken>` and `{ "refreshToken": "<refreshToken>" }` in the body; revokes both tokens.
 - `GET /api/auth/me` - requires `Authorization: Bearer <accessToken>` and returns the current user.
 
+### Frontend CORS
+
+The backend allows browser requests from `http://localhost:3000` and `http://localhost:5173` by default. Configure additional or different origins using the comma-separated `CORS_ALLOWED_ORIGINS` environment variable, for example:
+
+```powershell
+$env:CORS_ALLOWED_ORIGINS = "http://localhost:5173,https://marketplace.example.com"
+```
+
+The allowlist is applied by Spring Security and supports authorization headers and preflight requests. Credentials (cookies) are not enabled; the API currently uses bearer tokens.
+
 ### Store MySQL settings locally
 
 Copy the local configuration template:
